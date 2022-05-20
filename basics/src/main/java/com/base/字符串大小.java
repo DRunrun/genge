@@ -12,15 +12,21 @@ public class 字符串大小 {
     }
 
     private static void ABC() {
-        String a ="A";
-        String b ="B";
-        String c ="D";
-        int d = a.compareTo(a);
-        int e = a.compareTo(b);
-        int f = c.compareTo(b);
-        System.out.println(d);
-        System.out.println(e);
-        System.out.println(f);
+        StringBuilder cSql = new StringBuilder(" where ");
+        StringBuilder sql = new StringBuilder(" where ");
+        Boolean bool = cSql.toString().equals(sql.toString());
+        Boolean bool1 = cSql.toString() == sql.toString();
+        System.out.println(bool);
+        System.out.println(bool1);
+        //String a ="A";
+        //String b ="B";
+        //String c ="D";
+        //int d = a.compareTo(a);
+        //int e = a.compareTo(b);
+        //int f = c.compareTo(b);
+        //System.out.println(d);
+        //System.out.println(e);
+        //System.out.println(f);
     }
 }
 
