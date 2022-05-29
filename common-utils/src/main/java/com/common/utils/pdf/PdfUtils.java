@@ -23,8 +23,8 @@ public class PdfUtils {
 
 
     public static void pdfout(Map<String,Object> o){
-        String templatePath = "E:\\transwrap资料\\pierce需求文档\\南网PDF需求\\图片删除后test.pdf";
-        String newPdfPath = "F:\\filePath\\pdf\\信用报告.pdf";
+        String templatePath = "E:\\transwrap资料\\pierce需求文档\\南网PDF需求\\模板\\信用报告测试版.pdf";
+        String newPdfPath = "F:\\filePath\\pdf\\信用报告测试版.pdf";
         PdfReader reader;
         FileOutputStream out;
         ByteArrayOutputStream bos;
@@ -71,8 +71,20 @@ public class PdfUtils {
             doc.open();
             PdfImportedPage importPage = copy.getImportedPage(new PdfReader(bos.toByteArray()), 1);
             PdfImportedPage importPage1 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 2);
+            PdfImportedPage importPage2 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 3);
+            PdfImportedPage importPage3 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 4);
+            PdfImportedPage importPage4 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 5);
+            PdfImportedPage importPage5 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 6);
+            PdfImportedPage importPage6 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 7);
+            PdfImportedPage importPage7 = copy.getImportedPage(new PdfReader(bos.toByteArray()), 8);
             copy.addPage(importPage);
             copy.addPage(importPage1);
+            copy.addPage(importPage2);
+            copy.addPage(importPage3);
+            copy.addPage(importPage4);
+            copy.addPage(importPage5);
+            copy.addPage(importPage6);
+            copy.addPage(importPage7);
             doc.close();
         }catch (Exception e){
             e.printStackTrace();
@@ -82,23 +94,31 @@ public class PdfUtils {
     public static void main(String[] args) throws IOException {
         Map<String,String> map = new HashMap();
         map.put("bgTime","20220523");
-        map.put("bgId","Test001");
+        map.put("bgId","891234798701");
         map.put("entName","番禺市总工会");
         map.put("assResult","中度风险，谨慎处理");
         map.put("entNameHead","番禺市总工会");
         map.put("year","2022");
         map.put("mouth","05");
         map.put("day","23");
-        map.put("score","100");
+        map.put("score","46");
         map.put("code","13440113455410938Q");
-        map.put("a","13440113455410938Q");
-        map.put("b","13440113455410938Q");
-        map.put("c","13440113455410938Q");
+        map.put("a","番禺市总工会");
+        map.put("b","2022.05.25");
+        map.put("c","番禺市总工会");
         map.put("d","13440113455410938Q");
-        map.put("e","13440113455410938Q");
+        map.put("e","1500万");
+        map.put("f","24");
+        map.put("g","10次");
+        map.put("h","6");
+        map.put("i","66666");
+        map.put("j","10");
+        map.put("k","600");
+        map.put("l","20222-05");
+        map.put("m","+");
         Map<String,Object> o=new HashMap();
         Map<String,String> map2 = new HashMap();
-        map2.put("img","E:\\transwrap资料\\pierce需求文档\\南网PDF需求\\没有分值.png");
+        map2.put("img","E:\\transwrap资料\\pierce需求文档\\南网PDF需求\\模板\\没有分值.png");
         Map<String, Object> mapt = new HashMap<>();
         Map<Day, Number> timeMap = new HashMap<>();
         timeMap.put(new Day(20, 1, 2004), 200);

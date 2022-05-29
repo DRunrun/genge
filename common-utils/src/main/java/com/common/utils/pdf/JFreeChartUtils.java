@@ -67,7 +67,7 @@ public class JFreeChartUtils {
         Image img = Toolkit.getDefaultToolkit().getImage("F:\\filePath\\折线图\\数据区背景图.png");
         //Image img = Toolkit.getDefaultToolkit().getImage("F:\\filePath\\折线图\\愤怒的小鸟.png");
 
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(title, xAxisLabel, yAxisLabel, dataSet, true, true, false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(title, null, null, dataSet, true, true, false);
         //添加背景图
         chart.setBackgroundImage(img);
         //chart.setBackgroundPaint(null);
@@ -77,12 +77,12 @@ public class JFreeChartUtils {
         axis.setDateFormatOverride(new SimpleDateFormat("yyyy/MM"));
         //横轴文字竖着展示
         axis.setVerticalTickLabels(true);
-        axis.setTickMarkPosition(DateTickMarkPosition.END);
+        //axis.setTickMarkPosition(DateTickMarkPosition.END);
         // 数据区添加背景图
         plot.setBackgroundImage(img);
         //Color color = new Color(252,12,245);
         plot.setBackgroundPaint(Color.white);
-        plot.setOutlinePaint(Color.CYAN);
+        //plot.setOutlinePaint(Color.CYAN);
         //plot.setBackgroundPaint(color);
         //plot.setBackgroundImageAlpha(0.01f);
 
@@ -96,7 +96,7 @@ public class JFreeChartUtils {
         //categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
 
 
-        int width = 1000;
+        int width = 2000;
         int height = 480;
         File timeChart = new File("F:\\filePath\\折线图\\" + new Random().nextInt(9999) + ".png");
         ChartUtilities.saveChartAsPNG(timeChart, chart, width, height);
