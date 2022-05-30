@@ -19,6 +19,7 @@ import java.util.Map;
  * @date 2022/5/29 9:51
  */
 public class ExportPdf {
+    private static BaseColor baseColor = new BaseColor(180,180,180);
     public static void main(String[] args) throws Exception {
         createPdfList(null);
     }
@@ -71,20 +72,31 @@ public class ExportPdf {
             FileOutputStream outputStream = new FileOutputStream(resultPath);
             PdfReader reader = new PdfReader(newTemPath);
             // 获取pdf尺寸 并创建相同尺寸的文档
-            Rectangle pageSize = reader.getPageSize(2);
+            Rectangle pageSize = reader.getPageSize(1);
+            // 指定pdf页面大小和模板一致
             Document document = new Document(pageSize);
             //创建编辑器
             PdfWriter writer = PdfWriter.getInstance(document,outputStream);
             document.open();
             // 设置页眉、页脚
             // 待实现
-            ImageHeaderFooter headerFooter = new ImageHeaderFooter();
+            PdfHeaderFooter headerFooter = new PdfHeaderFooter();
             writer.setPageEvent(headerFooter);
-            // 文本定位编辑
+            // 拿到生成pdf当前页
             PdfContentByte contentByte = writer.getDirectContentUnder();
-            PdfImportedPage pageTemplateOne = writer.getImportedPage(reader, 1);
-            PdfImportedPage pageTemplatetwo = writer.getImportedPage(reader, 2);
-            contentByte.addTemplate(pageTemplateOne,0,0);
+            //传入pdf的总页数
+            int totalPage = reader.getNumberOfPages();
+            for (int i = 1; i <= totalPage; i++){
+                //创建新的一页
+                document.newPage();
+                //从当前Pdf,获取第j页
+                PdfImportedPage pageTemplate = writer.getImportedPage(reader, i);
+                //使用writer需要使用pdf的层,然后后添加
+                //0:距离左边界的距离
+                //0：距离下边界的距离
+                contentByte.addTemplate(pageTemplate,0,0);
+
+            }
             // 创建新的一页
             document.newPage();
             // 生成电户用电详情
@@ -154,13 +166,13 @@ public class ExportPdf {
 
             // 开始画表格 todo: 表格背景色待调
             //第一行
-            tableBox.addCell(getCell(new Phrase("目标企业户均用电对比所在行业户均用电情况", fontChinese), true, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业户均用电对比所在行业户均用电情况", fontChinese), true, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("+",fontChinese), true, 1, 1,null));
             //第二行
-            tableBox.addCell(getCell(new Phrase("目标企业户均用电对比所在区位户均用电情况", fontChinese), true, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业户均用电对比所在区位户均用电情况", fontChinese), true, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("+",fontChinese), true, 1, 1,null));
             //第三行
-            tableBox.addCell(getCell(new Phrase("目标企业户均用电对比所在客群户均用电情况", fontChinese), true, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业户均用电对比所在客群户均用电情况", fontChinese), true, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("+",fontChinese), true, 1, 1,null));
 
             ret.add(tableBox);
@@ -191,9 +203,9 @@ public class ExportPdf {
 
             // 开始画表格 todo: 表格背景色待调
             //第一行
-            tableBox.addCell(getCell(new Phrase("对象", fontChinese), false, 1, 1,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase("日期",fontChinese), false, 1, 1,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase("拖缴金额(单位: 人民币)", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("对象", fontChinese), false, 1, 1,baseColor));
+            tableBox.addCell(getCell(new Phrase("日期",fontChinese), false, 1, 1,baseColor));
+            tableBox.addCell(getCell(new Phrase("拖缴金额(单位: 人民币)", fontChinese), false, 1, 1,baseColor));
             //第二行
             tableBox.addCell(getCell(new Phrase("所在行业户均(中位数)", fontChinese), false, 1, 1,null));
             tableBox.addCell(getCell(new Phrase("2022-01", fontChinese), false, 1, 1,null));
@@ -232,23 +244,23 @@ public class ExportPdf {
 
             // 开始画表格 todo: 表格背景色待调
             //第一行
-            tableBox.addCell(getCell(new Phrase("对象", fontChinese), false, 1, 1,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase("拖缴天数",fontChinese), false, 1, 1,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase("拖缴金额", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("对象", fontChinese), false, 1, 1,baseColor));
+            tableBox.addCell(getCell(new Phrase("拖缴天数",fontChinese), false, 1, 1,baseColor));
+            tableBox.addCell(getCell(new Phrase("拖缴金额", fontChinese), false, 1, 1,baseColor));
             //第二行
-            tableBox.addCell(getCell(new Phrase("目标企业用电缴费情况", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业用电缴费情况", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("20", fontChinese), false, 1, 1,null));
             tableBox.addCell(getCell(new Phrase("1200元",fontChinese), false, 1, 1,null));
             //第三行
-            tableBox.addCell(getCell(new Phrase("目标企业所在行业用电缴费情况", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业所在行业用电缴费情况", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("20", fontChinese), false, 1, 1,null));
             tableBox.addCell(getCell(new Phrase("1200元",fontChinese), false, 1, 1,null));
             //第四行
-            tableBox.addCell(getCell(new Phrase("目标企业用所在区位电缴费情况", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业用所在区位电缴费情况", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("20", fontChinese), false, 1, 1,null));
             tableBox.addCell(getCell(new Phrase("1200元",fontChinese), false, 1, 1,null));
             //第五行
-            tableBox.addCell(getCell(new Phrase("目标企业用所在群体电缴费情况", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("目标企业用所在群体电缴费情况", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("20", fontChinese), false, 1, 1,null));
             tableBox.addCell(getCell(new Phrase("1200元",fontChinese), false, 1, 1,null));
             ret.add(tableBox);
@@ -279,30 +291,30 @@ public class ExportPdf {
 
             // 开始画表格 todo: 表格背景色待调
             //第一行
-            tableBox.addCell(getCell(new Phrase("户号", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("户号", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("12123",fontChinese), false, 2, 1,null));
-            tableBox.addCell(getCell(new Phrase("在网时长", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("在网时长", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("123",fontChinese), false, 2, 1,null));
             //第二行
-            tableBox.addCell(getCell(new Phrase("电户地址", fontChinese), false, 1, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase("电户地址", fontChinese), false, 1, 1,baseColor));
             tableBox.addCell(getCell(new Phrase("江苏省南京雨花台区云密城J栋10楼", fontChinese), false, 5, 1,null));
             //第三行
-            tableBox.addCell(getCell(new Phrase(" 累计拖缴次数 ", fontChinese), false, 2, 2,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase(" 最近半年 ", fontChinese), false, 2, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase(" 累计拖缴次数 ", fontChinese), false, 2, 2,baseColor));
+            tableBox.addCell(getCell(new Phrase(" 最近半年 ", fontChinese), false, 2, 1,baseColor));
             tableBox.addCell(getCell(new Phrase(" 6次 ", fontChinese), false, 2, 1,null));
-            tableBox.addCell(getCell(new Phrase(" 最近一年 ", fontChinese), false, 2, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase(" 最近一年 ", fontChinese), false, 2, 1,baseColor));
             tableBox.addCell(getCell(new Phrase(" 6次 ", fontChinese), false, 2, 1,null));
             //第四行
-            tableBox.addCell(getCell(new Phrase(" 累计拖缴金额 ", fontChinese), false, 2, 2,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase(" 最近半年 ", fontChinese), false, 2, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase(" 累计拖缴金额 ", fontChinese), false, 2, 2,baseColor));
+            tableBox.addCell(getCell(new Phrase(" 最近半年 ", fontChinese), false, 2, 1,baseColor));
             tableBox.addCell(getCell(new Phrase(" 600人名币 ", fontChinese), false, 2, 1,null));
-            tableBox.addCell(getCell(new Phrase(" 最近一年 ", fontChinese), false, 2, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase(" 最近一年 ", fontChinese), false, 2, 1,baseColor));
             tableBox.addCell(getCell(new Phrase(" 1200人名币 ", fontChinese), false, 2, 1,null));
             //第五行
-            tableBox.addCell(getCell(new Phrase(" 累计拖缴天数 ", fontChinese), false, 2, 2,BaseColor.GREEN));
-            tableBox.addCell(getCell(new Phrase(" 最近半年 ", fontChinese), false, 2, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase(" 累计拖缴天数 ", fontChinese), false, 2, 2,baseColor));
+            tableBox.addCell(getCell(new Phrase(" 最近半年 ", fontChinese), false, 2, 1,baseColor));
             tableBox.addCell(getCell(new Phrase(" 30天 ", fontChinese), false, 2, 1,null));
-            tableBox.addCell(getCell(new Phrase(" 最近一年 ", fontChinese), false, 2, 1,BaseColor.GREEN));
+            tableBox.addCell(getCell(new Phrase(" 最近一年 ", fontChinese), false, 2, 1,baseColor));
             tableBox.addCell(getCell(new Phrase(" 60天 ", fontChinese), false, 2, 1,null));
 
             ret.add(tableBox);
