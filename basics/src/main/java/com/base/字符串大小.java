@@ -1,5 +1,8 @@
 package com.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * TODO: 
  *
@@ -8,7 +11,14 @@ package com.base;
  */
 public class 字符串大小 {
     public static void main(String[] args) {
-        ABC();
+        StringBuilder a = new StringBuilder();
+        a.append("A ").append("B");
+        System.out.println(a.toString());
+
+//        List<String> a = new ArrayList<>();
+//        boolean b = a.contains(null);
+//        System.out.println(b);
+////        ABC();
     }
 
     private static void ABC() {
